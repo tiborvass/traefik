@@ -141,6 +141,9 @@ func (provider *WebProvider) getPingHandler(response http.ResponseWriter, reques
 
 func (provider *WebProvider) getConfigHandler(response http.ResponseWriter, request *http.Request) {
 	currentConfigurations := provider.server.currentConfigurations.Get().(configs)
+	if h := response.Header(); h != nil {
+		h.Add("X-Traefik-Host", "toto")
+	}
 	templatesRenderer.JSON(response, http.StatusOK, currentConfigurations)
 }
 
